@@ -18,6 +18,15 @@ namespace vaudionativewrapper.managed
         /// <summary>Unique properties logged in the ~Primitive finaliser to identify which primitive was leaked</summary>
         protected virtual string DebugInfo => "";
 
+        public void Destroy()
+        {
+            DestroyNative(native).ThrowIfError();
+            native = IntPtr.Zero;
+        }
+
+        /// <summary>Calls the primitive-specific native Destroy binding</summary>
+        protected virtual VAResult DestroyNative(IntPtr native) => throw new NotImplementedException();
+
         ~Primitive()
         {
             if (owns && native != IntPtr.Zero)

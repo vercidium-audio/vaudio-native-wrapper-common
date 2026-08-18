@@ -25,6 +25,7 @@ namespace vaudionativewrapper.managed
         /// <summary>Unique properties logged in the ~Primitive finaliser to identify which primitive was leaked</summary>
         protected virtual string DebugInfo => "";
 
+        /// <summary>Attempts to destroy the native primitive. Throws an exception if the primitive is still added to a world</summary>
         public void Destroy()
         {
             DestroyNative(native).ThrowIfError();

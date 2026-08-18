@@ -3,7 +3,7 @@
 namespace vaudionativewrapper.managed
 {
     /// <summary>A 3D primitive that rays collide with.</summary>
-    public class Primitive
+    public abstract class Primitive
     {
         public IntPtr native;
         protected bool owns;
@@ -32,7 +32,7 @@ namespace vaudionativewrapper.managed
         }
 
         /// <summary>Calls the primitive-specific native Destroy binding</summary>
-        protected virtual VAResult DestroyNative(IntPtr native) => throw new NotImplementedException();
+        protected abstract VAResult DestroyNative(IntPtr native);
 
         ~Primitive()
         {

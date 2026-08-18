@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 namespace vaudionativewrapper.managed
 {
     /// <summary>A standalone world with its own primitives, emitters, materials and settings</summary>
-    public unsafe class World
+    public unsafe partial class World
     {
         public IntPtr native;
         private readonly bool owns;
@@ -394,11 +394,6 @@ namespace vaudionativewrapper.managed
             set => WorldBindings.SetCoordinateSystem(native, value).ThrowIfError();
         }
 
-        public Vector CalculateListenerRelativePan(Vector worldVector, float listenerPitch, float listenerYaw)
-        {
-            return WorldBindings.CalculateListenerRelativePan(native, worldVector, listenerPitch, listenerYaw);
-        }
-
         /// <summary>When set to true, Update will stop submitting work to background threads. When ThreadsRunning becomes false, it is safe to call Dispose.</summary>
         public bool PendingShutdown
         {
@@ -422,27 +417,6 @@ namespace vaudionativewrapper.managed
         {
             get => WorldBindings.GetCameraPosition(native);
             set => WorldBindings.SetCameraPosition(native, value).ThrowIfError();
-        }
-
-        /// <summary>The pitch of the camera in the debug window (dev build only)</summary>
-        public float CameraPitch
-        {
-            get => WorldBindings.GetCameraPitch(native);
-            set => WorldBindings.SetCameraPitch(native, value).ThrowIfError();
-        }
-
-        /// <summary>The yaw of the camera in the debug window (dev build only)</summary>
-        public float CameraYaw
-        {
-            get => WorldBindings.GetCameraYaw(native);
-            set => WorldBindings.SetCameraYaw(native, value).ThrowIfError();
-        }
-
-        /// <summary>The field of view (in radians) of the camera in the debug window (dev build only)</summary>
-        public float FieldOfView
-        {
-            get => WorldBindings.GetFieldOfView(native);
-            set => WorldBindings.SetFieldOfView(native, value).ThrowIfError();
         }
 
         /// <summary>The speed of the camera in the debug window (dev build only)</summary>

@@ -49,18 +49,18 @@ namespace vaudionativewrapper.managed
             set => WorldBindings.SetMaterialTransmissionHF(world, id, value);
         }
 
-        /// <summary>Percentage of low-frequency energy lost when a ray passes through a flat PlanePrimitive, DiskPrimitive, TrianglePrimitive or non-watertight MeshPrimitive. Ranges from 0.0 to 1.0</summary>
-        public float PlaneTransmissionLF
+        /// <summary>Percentage of low-frequency energy lost when a ray touches a Plane, Disk, Triangle, Line, non-watertight Mesh, non-enclosed Polygon or open Path primitive, instead of calculating how long the ray spent inside it. Ranges from 0.0 to 1.0</summary>
+        public float FlatTransmissionLF
         {
-            get => WorldBindings.GetMaterialPlaneTransmissionLF(world, id);
-            set => WorldBindings.SetMaterialPlaneTransmissionLF(world, id, value);
+            get => WorldBindings.GetMaterialFlatTransmissionLF(world, id);
+            set => WorldBindings.SetMaterialFlatTransmissionLF(world, id, value);
         }
 
-        /// <summary>Percentage of high-frequency energy lost when a ray passes through a flat PlanePrimitive, DiskPrimitive, TrianglePrimitive or non-watertight MeshPrimitive. Ranges from 0.0 to 1.0</summary>
-        public float PlaneTransmissionHF
+        /// <summary>Percentage of high-frequency energy lost when a ray touches a Plane, Disk, Triangle, Line, non-watertight Mesh, non-enclosed Polygon or open Path primitive, instead of calculating how long the ray spent inside it. Ranges from 0.0 to 1.0</summary>
+        public float FlatTransmissionHF
         {
-            get => WorldBindings.GetMaterialPlaneTransmissionHF(world, id);
-            set => WorldBindings.SetMaterialPlaneTransmissionHF(world, id, value);
+            get => WorldBindings.GetMaterialFlatTransmissionHF(world, id);
+            set => WorldBindings.SetMaterialFlatTransmissionHF(world, id, value);
         }
 
         /// <summary>Debug rendering colour for this material (dev build only). No effect on raytracing.</summary>

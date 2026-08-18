@@ -3,7 +3,7 @@ using System.Runtime.InteropServices;
 
 namespace vaudionativewrapper
 {
-    public static class WorldBindings
+    public static partial class WorldBindings
     {
         [DllImport(Constants.DLL_NAME, CallingConvention = CallingConvention.Cdecl, EntryPoint = "vaWorldCreate")]
         public static extern IntPtr Create();
@@ -83,10 +83,10 @@ namespace vaudionativewrapper
         public static extern float GetMaterialTransmissionLF(IntPtr world, int materialId);
         [DllImport(Constants.DLL_NAME, CallingConvention = CallingConvention.Cdecl, EntryPoint = "vaWorldGetMaterialTransmissionHF")]
         public static extern float GetMaterialTransmissionHF(IntPtr world, int materialId);
-        [DllImport(Constants.DLL_NAME, CallingConvention = CallingConvention.Cdecl, EntryPoint = "vaWorldGetMaterialPlaneTransmissionLF")]
-        public static extern float GetMaterialPlaneTransmissionLF(IntPtr world, int materialId);
-        [DllImport(Constants.DLL_NAME, CallingConvention = CallingConvention.Cdecl, EntryPoint = "vaWorldGetMaterialPlaneTransmissionHF")]
-        public static extern float GetMaterialPlaneTransmissionHF(IntPtr world, int materialId);
+        [DllImport(Constants.DLL_NAME, CallingConvention = CallingConvention.Cdecl, EntryPoint = "vaWorldGetMaterialFlatTransmissionLF")]
+        public static extern float GetMaterialFlatTransmissionLF(IntPtr world, int materialId);
+        [DllImport(Constants.DLL_NAME, CallingConvention = CallingConvention.Cdecl, EntryPoint = "vaWorldGetMaterialFlatTransmissionHF")]
+        public static extern float GetMaterialFlatTransmissionHF(IntPtr world, int materialId);
 
         [DllImport(Constants.DLL_NAME, CallingConvention = CallingConvention.Cdecl, EntryPoint = "vaWorldSetMaterialAbsorptionLF")]
         public static extern VAResult SetMaterialAbsorptionLF(IntPtr world, int materialId, float value);
@@ -98,10 +98,10 @@ namespace vaudionativewrapper
         public static extern VAResult SetMaterialTransmissionLF(IntPtr world, int materialId, float value);
         [DllImport(Constants.DLL_NAME, CallingConvention = CallingConvention.Cdecl, EntryPoint = "vaWorldSetMaterialTransmissionHF")]
         public static extern VAResult SetMaterialTransmissionHF(IntPtr world, int materialId, float value);
-        [DllImport(Constants.DLL_NAME, CallingConvention = CallingConvention.Cdecl, EntryPoint = "vaWorldSetMaterialPlaneTransmissionLF")]
-        public static extern VAResult SetMaterialPlaneTransmissionLF(IntPtr world, int materialId, float value);
-        [DllImport(Constants.DLL_NAME, CallingConvention = CallingConvention.Cdecl, EntryPoint = "vaWorldSetMaterialPlaneTransmissionHF")]
-        public static extern VAResult SetMaterialPlaneTransmissionHF(IntPtr world, int materialId, float value);
+        [DllImport(Constants.DLL_NAME, CallingConvention = CallingConvention.Cdecl, EntryPoint = "vaWorldSetMaterialFlatTransmissionLF")]
+        public static extern VAResult SetMaterialFlatTransmissionLF(IntPtr world, int materialId, float value);
+        [DllImport(Constants.DLL_NAME, CallingConvention = CallingConvention.Cdecl, EntryPoint = "vaWorldSetMaterialFlatTransmissionHF")]
+        public static extern VAResult SetMaterialFlatTransmissionHF(IntPtr world, int materialId, float value);
 
         [DllImport(Constants.DLL_NAME, CallingConvention = CallingConvention.Cdecl, EntryPoint = "vaWorldGetMaterialColor")]
         public static extern Color GetMaterialColor(IntPtr world, int materialId);
@@ -212,9 +212,6 @@ namespace vaudionativewrapper
         [DllImport(Constants.DLL_NAME, CallingConvention = CallingConvention.Cdecl, EntryPoint = "vaWorldSetUserData")]
         public static extern VAResult SetUserData(IntPtr world, IntPtr userData);
 
-        [DllImport(Constants.DLL_NAME, CallingConvention = CallingConvention.Cdecl, EntryPoint = "vaWorldCalculateListenerRelativePan")]
-        public static extern Vector CalculateListenerRelativePan(IntPtr ctx, Vector worldVector, float listenerPitch, float listenerYaw);
-
         [DllImport(Constants.DLL_NAME, CallingConvention = CallingConvention.Cdecl, EntryPoint = "vaWorldGetRaysCastThisFrame")]
         public static extern int GetRaysCastThisFrame(IntPtr ctx);
 
@@ -256,21 +253,6 @@ namespace vaudionativewrapper
         public static extern Vector GetCameraPosition(IntPtr world);
         [DllImport(Constants.DLL_NAME, CallingConvention = CallingConvention.Cdecl, EntryPoint = "vaWorldSetCameraPosition")]
         public static extern VAResult SetCameraPosition(IntPtr world, Vector position);
-
-        [DllImport(Constants.DLL_NAME, CallingConvention = CallingConvention.Cdecl, EntryPoint = "vaWorldGetCameraPitch")]
-        public static extern float GetCameraPitch(IntPtr world);
-        [DllImport(Constants.DLL_NAME, CallingConvention = CallingConvention.Cdecl, EntryPoint = "vaWorldSetCameraPitch")]
-        public static extern VAResult SetCameraPitch(IntPtr world, float pitch);
-
-        [DllImport(Constants.DLL_NAME, CallingConvention = CallingConvention.Cdecl, EntryPoint = "vaWorldGetCameraYaw")]
-        public static extern float GetCameraYaw(IntPtr world);
-        [DllImport(Constants.DLL_NAME, CallingConvention = CallingConvention.Cdecl, EntryPoint = "vaWorldSetCameraYaw")]
-        public static extern VAResult SetCameraYaw(IntPtr world, float yaw);
-
-        [DllImport(Constants.DLL_NAME, CallingConvention = CallingConvention.Cdecl, EntryPoint = "vaWorldGetFieldOfView")]
-        public static extern float GetFieldOfView(IntPtr world);
-        [DllImport(Constants.DLL_NAME, CallingConvention = CallingConvention.Cdecl, EntryPoint = "vaWorldSetFieldOfView")]
-        public static extern VAResult SetFieldOfView(IntPtr world, float fieldOfView);
 
         [DllImport(Constants.DLL_NAME, CallingConvention = CallingConvention.Cdecl, EntryPoint = "vaWorldGetCameraSpeed")]
         public static extern float GetCameraSpeed(IntPtr world);

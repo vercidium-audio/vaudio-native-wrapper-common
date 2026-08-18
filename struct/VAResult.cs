@@ -30,6 +30,7 @@ namespace vaudionativewrapper
         ConfigError = 23,
         True = 24,
         False = 25,
+        WrongDimension = 26,
     }
 
     public static class VAResultExtensions

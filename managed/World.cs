@@ -175,6 +175,21 @@ namespace vaudionativewrapper.managed
         /// <summary>The average time (in milliseconds) spent in the analysing thread after the raytracing threads complete. This phase runs after raytracing completes and calculate reverb properties. Use this to monitor raytracing performance and adjust ray counts if needed.</summary>
         public double AnalysisTime => WorldBindings.GetAnalysisTime(native);
 
+        /// <summary>The average time (in milliseconds) between submitting work to the background thread pool and the first worker thread waking up. High values indicate thread wake-up / scheduling latency rather than raytracing work itself.</summary>
+        public double SubmitToWakeTime => WorldBindings.GetSubmitToWakeTime(native);
+
+        /// <summary>The average time (in milliseconds) between the first worker thread waking up and the preparation work item (BVH build) finishing. This is the real-world elapsed time spent building/updating the BVH before emitter raytracing work is fanned out to other threads.</summary>
+        public double WakeToFanoutTime => WorldBindings.GetWakeToFanoutTime(native);
+
+        /// <summary>The average time (in milliseconds) between the preparation work item fanning out emitter work, and the last fanned-out worker thread actually waking up to start it. High values indicate OS scheduling/wake latency across multiple threads, not time spent doing raytracing work.</summary>
+        public double FanoutToLastWakeTime => WorldBindings.GetFanoutToLastWakeTime(native);
+
+        /// <summary>The average time (in milliseconds) between the last fanned-out worker thread waking up and the last emitter/visualisation work item completing. This isolates actual raytracing/visualisation work and work-queue contention from thread wake-up latency.</summary>
+        public double LastWakeToWorkTime => WorldBindings.GetLastWakeToWorkTime(native);
+
+        /// <summary>The average time (in milliseconds) spent executing the completion work item (reverb analysis) itself.</summary>
+        public double CompletionWorkTime => WorldBindings.GetCompletionWorkTime(native);
+
         /// <summary>List of grouped EAX reverb properties for all emitters. Contains parameters compatible with EAX reverb effects.</summary>
         public List<EAXReverb> GroupedEAX
         {

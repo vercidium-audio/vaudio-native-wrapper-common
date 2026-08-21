@@ -68,11 +68,13 @@ namespace vaudionativewrapper.managed
             return result;
         }
 
+#if DEBUG
         ~AirAbsorptionSettings()
         {
             if (owns && native != IntPtr.Zero)
                 LogSettings.Warn($"AirAbsorptionSettings was garbage collected without calling Destroy() first. Stack trace: {stackTrace}");
         }
+#endif
 
         public AirAbsorptionFormulaDelegate SetCustomFormulaLF(Func<float, float> value)
         {

@@ -44,10 +44,12 @@ namespace vaudionativewrapper.managed
         /// <summary>Calls the primitive-specific native Destroy binding</summary>
         protected abstract VAResult DestroyNative(IntPtr native);
 
+#if DEBUG
         ~Primitive()
         {
             if (owns && native != IntPtr.Zero)
                 LogSettings.Warn($"{GetType().Name} was garbage collected without calling Destroy() first. {DebugInfo}. Stack trace: {stackTrace}");
         }
+#endif
     }
 }

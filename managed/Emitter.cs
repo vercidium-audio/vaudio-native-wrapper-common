@@ -41,6 +41,7 @@ namespace vaudionativewrapper.managed
             native = IntPtr.Zero;
         }
 
+#if DEBUG
         ~Emitter()
         {
             if (owns && native != IntPtr.Zero)
@@ -51,6 +52,7 @@ namespace vaudionativewrapper.managed
                 LogSettings.Warn($"Emitter '{name}' was garbage collected without calling Destroy() first. Stack trace: {stackTrace}");
             }
         }
+#endif
 
         /// <summary>Adds an emitter to this emitter's target list</summary>
         public void AddTarget(Emitter target) => EmitterBindings.AddTarget(native, target.native);

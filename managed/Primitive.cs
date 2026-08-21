@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 
 namespace vaudionativewrapper.managed
 {
@@ -8,9 +9,17 @@ namespace vaudionativewrapper.managed
         public IntPtr native;
         protected bool owns;
 
+#if DEBUG
+        string stackTrace;
+#endif
+
         public Primitive(IntPtr native)
         {
             this.native = native;
+
+#if DEBUG
+            stackTrace = Environment.StackTrace;
+#endif
         }
 
         public Primitive() { }
@@ -38,7 +47,7 @@ namespace vaudionativewrapper.managed
         ~Primitive()
         {
             if (owns && native != IntPtr.Zero)
-                LogSettings.Warn($"{GetType().Name} was garbage collected without calling Destroy() first. {DebugInfo}");
+                LogSettings.Warn($"{GetType().Name} was garbage collected without calling Destroy() first. {DebugInfo}. Stack trace: {stackTrace}");
         }
     }
 }

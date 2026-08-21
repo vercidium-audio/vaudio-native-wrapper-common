@@ -16,16 +16,26 @@ namespace vaudionativewrapper.managed
         GCHandle lfHandle;
         GCHandle hfHandle;
 
+#if DEBUG
+        string stackTrace;
+#endif
+
         /// <summary>Create a new AirAbsorptionSettings with default settings</summary>
         public AirAbsorptionSettings()
         {
             native = AirAbsorptionSettingsBindings.Create();
             owns = true;
+#if DEBUG
+            stackTrace = Environment.StackTrace;
+#endif
         }
 
         public AirAbsorptionSettings(IntPtr native)
         {
             this.native = native;
+#if DEBUG
+            stackTrace = Environment.StackTrace;
+#endif
         }
 
         /// <summary>Relative humidity as a percentage (0–1). Defaults to 0.1f</summary>
@@ -61,7 +71,7 @@ namespace vaudionativewrapper.managed
         ~AirAbsorptionSettings()
         {
             if (owns && native != IntPtr.Zero)
-                LogSettings.Warn("AirAbsorptionSettings was garbage collected without calling Destroy() first.");
+                LogSettings.Warn($"AirAbsorptionSettings was garbage collected without calling Destroy() first. Stack trace: {stackTrace}");
         }
 
         public AirAbsorptionFormulaDelegate SetCustomFormulaLF(Func<float, float> value)

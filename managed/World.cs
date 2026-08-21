@@ -10,11 +10,19 @@ namespace vaudionativewrapper.managed
         public IntPtr native;
         private readonly bool owns;
 
+#if DEBUG
+        string stackTrace;
+#endif
+
         /// <summary>Create a new world</summary>
         public World()
         {
             native = WorldBindings.Create();
             owns = true;
+
+#if DEBUG
+            stackTrace = Environment.StackTrace;
+#endif
         }
 
         public World(IntPtr native)
@@ -22,8 +30,8 @@ namespace vaudionativewrapper.managed
             this.native = native;
         }
 
-        /// <summary>Waits for background thread to complete, then disposes everything. After calling this method, this world cannot be reused.</summary>
-        public void Dispose()
+        /// <summary>Waits for background thread to complete, then destroys everything. After calling this method, this world cannot be reused.</summary>
+        public void Destroy()
         {
             if (native == IntPtr.Zero)
                 return;
@@ -35,7 +43,7 @@ namespace vaudionativewrapper.managed
         ~World()
         {
             if (owns && native != IntPtr.Zero)
-                LogSettings.Warn("World was garbage collected without calling Dispose() first.");
+                LogSettings.Warn($"World was garbage collected without calling Dispose() first. Stack trace: {stackTrace}");
         }
 
         /// <summary>Updates the raytracing simulation. Call this method regularly to process raytracing results and submit new work. This method does nothing if background raytracing threads are still running. When threads are idle, it performs the following operations: - Handles the last raytracing results, updating reverb objects and invoking OnRaytracedByAnotherEmitter callbacks - Applies new settings and resizes memory buffers if needed (e.g. if ray counts were changed) - Processes new, modified, and removed primitives - Starts raytracing again on background threads This method must be called from the main thread. Calling this more frequently is safe and can reduce latency for emitter updates.</summary>

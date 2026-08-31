@@ -3,16 +3,24 @@ using System.Runtime.InteropServices;
 
 namespace vaudionativewrapper.managed
 {
-    /// <summary>A 3D position that casts rays and is discovered by other Emitters</summary>
+    /// <summary>An entity that casts rays and is discovered by other Emitters</summary>
     public unsafe class Emitter
     {
         public IntPtr native;
         private readonly bool owns;
 
-#region Functions
+#if DEBUG
+        string stackTrace;
+#endif
+
+        #region Functions
         public Emitter(IntPtr native)
         {
             this.native = native;
+
+#if DEBUG
+            stackTrace = Environment.StackTrace;
+#endif
         }
 
         /// <summary>Create a new Emitter with default settings</summary>
@@ -20,6 +28,10 @@ namespace vaudionativewrapper.managed
         {
             native = EmitterBindings.Create();
             owns = true;
+
+#if DEBUG
+            stackTrace = Environment.StackTrace;
+#endif
         }
 
         /// <summary>Free the emitter. Throws if the emitter is still added to a world.</summary>
@@ -29,6 +41,7 @@ namespace vaudionativewrapper.managed
             native = IntPtr.Zero;
         }
 
+#if DEBUG
         ~Emitter()
         {
             if (owns && native != IntPtr.Zero)
@@ -36,9 +49,10 @@ namespace vaudionativewrapper.managed
                 string name;
                 try { name = Name; } catch { name = "<unknown>"; }
 
-                LogSettings.Warn($"Emitter '{name}' was garbage collected without calling Destroy() first.");
+                LogSettings.Warn($"Emitter '{name}' was garbage collected without calling Destroy() first. Stack trace: {stackTrace}");
             }
         }
+#endif
 
         /// <summary>Adds an emitter to this emitter's target list</summary>
         public void AddTarget(Emitter target) => EmitterBindings.AddTarget(native, target.native);

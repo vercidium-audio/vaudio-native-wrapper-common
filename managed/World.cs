@@ -10,11 +10,19 @@ namespace vaudionativewrapper.managed
         public IntPtr native;
         private readonly bool owns;
 
+#if DEBUG
+        string stackTrace;
+#endif
+
         /// <summary>Create a new world</summary>
         public World()
         {
             native = WorldBindings.Create();
             owns = true;
+
+#if DEBUG
+            stackTrace = Environment.StackTrace;
+#endif
         }
 
         public World(IntPtr native)
@@ -22,8 +30,8 @@ namespace vaudionativewrapper.managed
             this.native = native;
         }
 
-        /// <summary>Waits for background thread to complete, then disposes everything. After calling this method, this world cannot be reused.</summary>
-        public void Dispose()
+        /// <summary>Waits for background thread to complete, then destroys everything. After calling this method, this world cannot be reused.</summary>
+        public void Destroy()
         {
             if (native == IntPtr.Zero)
                 return;
@@ -32,11 +40,13 @@ namespace vaudionativewrapper.managed
             native = IntPtr.Zero;
         }
 
+#if DEBUG
         ~World()
         {
             if (owns && native != IntPtr.Zero)
-                LogSettings.Warn("World was garbage collected without calling Dispose() first.");
+                LogSettings.Warn($"World was garbage collected without calling Dispose() first. Stack trace: {stackTrace}");
         }
+#endif
 
         /// <summary>Updates the raytracing simulation. Call this method regularly to process raytracing results and submit new work. This method does nothing if background raytracing threads are still running. When threads are idle, it performs the following operations: - Handles the last raytracing results, updating reverb objects and invoking OnRaytracedByAnotherEmitter callbacks - Applies new settings and resizes memory buffers if needed (e.g. if ray counts were changed) - Processes new, modified, and removed primitives - Starts raytracing again on background threads This method must be called from the main thread. Calling this more frequently is safe and can reduce latency for emitter updates.</summary>
         public VAResult Update()
@@ -175,6 +185,21 @@ namespace vaudionativewrapper.managed
         /// <summary>The average time (in milliseconds) spent in the analysing thread after the raytracing threads complete. This phase runs after raytracing completes and calculate reverb properties. Use this to monitor raytracing performance and adjust ray counts if needed.</summary>
         public double AnalysisTime => WorldBindings.GetAnalysisTime(native);
 
+        /// <summary>The average time (in milliseconds) between submitting work to the background thread pool and the first worker thread waking up. High values indicate thread wake-up / scheduling latency rather than raytracing work itself.</summary>
+        public double SubmitToWakeTime => WorldBindings.GetSubmitToWakeTime(native);
+
+        /// <summary>The average time (in milliseconds) between the first worker thread waking up and the preparation work item (BVH build) finishing. This is the real-world elapsed time spent building/updating the BVH before emitter raytracing work is fanned out to other threads.</summary>
+        public double WakeToFanoutTime => WorldBindings.GetWakeToFanoutTime(native);
+
+        /// <summary>The average time (in milliseconds) between the preparation work item fanning out emitter work, and the last fanned-out worker thread actually waking up to start it. High values indicate OS scheduling/wake latency across multiple threads, not time spent doing raytracing work.</summary>
+        public double FanoutToLastWakeTime => WorldBindings.GetFanoutToLastWakeTime(native);
+
+        /// <summary>The average time (in milliseconds) between the last fanned-out worker thread waking up and the last emitter/visualisation work item completing. This isolates actual raytracing/visualisation work and work-queue contention from thread wake-up latency.</summary>
+        public double LastWakeToWorkTime => WorldBindings.GetLastWakeToWorkTime(native);
+
+        /// <summary>The average time (in milliseconds) spent executing the completion work item (reverb analysis) itself.</summary>
+        public double CompletionWorkTime => WorldBindings.GetCompletionWorkTime(native);
+
         /// <summary>List of grouped EAX reverb properties for all emitters. Contains parameters compatible with EAX reverb effects.</summary>
         public List<EAXReverb> GroupedEAX
         {
@@ -303,10 +328,7 @@ namespace vaudionativewrapper.managed
 
             WorldBindings.SetCustomEAXFormulas(native, nativeFormulas).ThrowIfError();
 
-            // Native holds raw function pointers into these 8 delegates, invoked from native worker
-            // threads. A managed reference via the returned CustomEAXFormulaCallbacks isn't a reliable
-            // guarantee against collection for that pattern (see AirAbsorptionSettings), so pin each
-            // delegate explicitly for as long as native might call back into it.
+            // Free GC-prevention handles
             if (_customEAXFormulaHandles != null)
                 foreach (var handle in _customEAXFormulaHandles)
                     if (handle.IsAllocated)

@@ -69,9 +69,7 @@ namespace vaudionativewrapper.managed
             for (int i = 1; i < echogramAverage.Length; i++)
                 tempDiffusionCumulative[i] = tempDiffusionCumulative[i - 1] + echogramAverage[i];
 
-            // Measure deviation from ideal smooth buildup
-            //  Higher variance = less diffuse (more irregular)
-            //  Lower variance = more diffuse (smoother)
+            // Measure deviation from ideal smooth buildup. Higher variance = less diffuse (more irregular). Lower variance = more diffuse (smoother)
             float variance = 0f;
             for (int i = 1; i < echogramAverage.Length; i++)
             {
@@ -122,9 +120,7 @@ namespace vaudionativewrapper.managed
                 }
             }
 
-            // Normalize peak count to density value
-            //  More peaks per unit time = higher density
-            //  Typical range is 10-100 peaks per second
+            // Normalize peak count to density value. More peaks per unit time = higher density. Typical range is 10-100 peaks per second
             float peaksPerSecond = peakCount / (analysisLength * binDurationMs / 1000f);
 
             // Map to 0.0-1.0 range

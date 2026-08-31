@@ -9,23 +9,30 @@ namespace vaudionativewrapper.managed
         public IntPtr native;
         private readonly bool owns;
 
-        // Native holds a raw function pointer into these delegates, invoked from native worker
-        // threads that the CLR doesn't scan the same way as managed call stacks. A managed field
-        // reference alone isn't a reliable guarantee against collection for this pattern, so pin
-        // them explicitly for as long as native might call back into them.
+        // Must keep these to prevent garbage collection
         GCHandle lfHandle;
         GCHandle hfHandle;
+
+#if DEBUG
+        string stackTrace;
+#endif
 
         /// <summary>Create a new AirAbsorptionSettings with default settings</summary>
         public AirAbsorptionSettings()
         {
             native = AirAbsorptionSettingsBindings.Create();
             owns = true;
+#if DEBUG
+            stackTrace = Environment.StackTrace;
+#endif
         }
 
         public AirAbsorptionSettings(IntPtr native)
         {
             this.native = native;
+#if DEBUG
+            stackTrace = Environment.StackTrace;
+#endif
         }
 
         /// <summary>Relative humidity as a percentage (0–1). Defaults to 0.1f</summary>
@@ -58,11 +65,13 @@ namespace vaudionativewrapper.managed
             return result;
         }
 
+#if DEBUG
         ~AirAbsorptionSettings()
         {
             if (owns && native != IntPtr.Zero)
-                LogSettings.Warn("AirAbsorptionSettings was garbage collected without calling Destroy() first.");
+                LogSettings.Warn($"AirAbsorptionSettings was garbage collected without calling Destroy() first. Stack trace: {stackTrace}");
         }
+#endif
 
         public AirAbsorptionFormulaDelegate SetCustomFormulaLF(Func<float, float> value)
         {

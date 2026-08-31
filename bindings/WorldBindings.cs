@@ -45,6 +45,16 @@ namespace vaudionativewrapper
         public static extern double GetPreparationTime(IntPtr world);
         [DllImport(Constants.DLL_NAME, CallingConvention = CallingConvention.Cdecl, EntryPoint = "vaWorldGetAnalysisTime")]
         public static extern double GetAnalysisTime(IntPtr world);
+        [DllImport(Constants.DLL_NAME, CallingConvention = CallingConvention.Cdecl, EntryPoint = "vaWorldGetSubmitToWakeTime")]
+        public static extern double GetSubmitToWakeTime(IntPtr world);
+        [DllImport(Constants.DLL_NAME, CallingConvention = CallingConvention.Cdecl, EntryPoint = "vaWorldGetWakeToFanoutTime")]
+        public static extern double GetWakeToFanoutTime(IntPtr world);
+        [DllImport(Constants.DLL_NAME, CallingConvention = CallingConvention.Cdecl, EntryPoint = "vaWorldGetFanoutToLastWakeTime")]
+        public static extern double GetFanoutToLastWakeTime(IntPtr world);
+        [DllImport(Constants.DLL_NAME, CallingConvention = CallingConvention.Cdecl, EntryPoint = "vaWorldGetLastWakeToWorkTime")]
+        public static extern double GetLastWakeToWorkTime(IntPtr world);
+        [DllImport(Constants.DLL_NAME, CallingConvention = CallingConvention.Cdecl, EntryPoint = "vaWorldGetCompletionWorkTime")]
+        public static extern double GetCompletionWorkTime(IntPtr world);
 
         [DllImport(Constants.DLL_NAME, CallingConvention = CallingConvention.Cdecl, EntryPoint = "vaWorldGetPosition")]
         public static extern Vector GetPosition(IntPtr world);

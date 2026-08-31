@@ -328,10 +328,7 @@ namespace vaudionativewrapper.managed
 
             WorldBindings.SetCustomEAXFormulas(native, nativeFormulas).ThrowIfError();
 
-            // Native holds raw function pointers into these 8 delegates, invoked from native worker
-            // threads. A managed reference via the returned CustomEAXFormulaCallbacks isn't a reliable
-            // guarantee against collection for that pattern (see AirAbsorptionSettings), so pin each
-            // delegate explicitly for as long as native might call back into it.
+            // Free GC-prevention handles
             if (_customEAXFormulaHandles != null)
                 foreach (var handle in _customEAXFormulaHandles)
                     if (handle.IsAllocated)

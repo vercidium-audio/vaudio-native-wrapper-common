@@ -9,10 +9,7 @@ namespace vaudionativewrapper.managed
         public IntPtr native;
         private readonly bool owns;
 
-        // Native holds a raw function pointer into these delegates, invoked from native worker
-        // threads that the CLR doesn't scan the same way as managed call stacks. A managed field
-        // reference alone isn't a reliable guarantee against collection for this pattern, so pin
-        // them explicitly for as long as native might call back into them.
+        // Must keep these to prevent garbage collection
         GCHandle lfHandle;
         GCHandle hfHandle;
 

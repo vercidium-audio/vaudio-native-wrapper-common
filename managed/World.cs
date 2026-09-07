@@ -503,6 +503,13 @@ namespace vaudionativewrapper.managed
             }
         }
 
+        /// <summary>Multiplier for the size of rendered visualisation rays in the debug window. Defaults to 1. Clamped to a minimum of 0 (dev build only)</summary>
+        public float VisualisationScale
+        {
+            get => WorldBindings.GetVisualisationScale(native);
+            set => WorldBindings.SetVisualisationScale(native, value).ThrowIfError();
+        }
+
         #endregion
     }
 }

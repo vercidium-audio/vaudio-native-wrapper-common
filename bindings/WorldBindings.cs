@@ -282,6 +282,11 @@ namespace vaudionativewrapper
         [DllImport(Constants.DLL_NAME, CallingConvention = CallingConvention.Cdecl, EntryPoint = "vaWorldSetWindowSize")]
         public static extern VAResult SetWindowSize(IntPtr world, int width, int height);
 
+        [DllImport(Constants.DLL_NAME, CallingConvention = CallingConvention.Cdecl, EntryPoint = "vaWorldGetVisualisationScale")]
+        public static extern float GetVisualisationScale(IntPtr world);
+        [DllImport(Constants.DLL_NAME, CallingConvention = CallingConvention.Cdecl, EntryPoint = "vaWorldSetVisualisationScale")]
+        public static extern VAResult SetVisualisationScale(IntPtr world, float value);
+
         #endregion
     }
 }

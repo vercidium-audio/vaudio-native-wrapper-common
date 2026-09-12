@@ -148,11 +148,11 @@ namespace vaudionativewrapper
         [DllImport(Constants.DLL_NAME, CallingConvention = CallingConvention.Cdecl, EntryPoint = "vaEmitterSetEchogramGranularity")]
         public static extern VAResult SetEchogramGranularity(IntPtr emitter, int value);
 
-        [DllImport(Constants.DLL_NAME, CallingConvention = CallingConvention.Cdecl, EntryPoint = "vaEmitterGetRefreshRayCount")]
-        public static extern int GetRefreshRayCount(IntPtr emitter);
+        [DllImport(Constants.DLL_NAME, CallingConvention = CallingConvention.Cdecl, EntryPoint = "vaEmitterGetTrailRefreshCount")]
+        public static extern int GetTrailRefreshCount(IntPtr emitter);
 
-        [DllImport(Constants.DLL_NAME, CallingConvention = CallingConvention.Cdecl, EntryPoint = "vaEmitterSetRefreshRayCount")]
-        public static extern VAResult SetRefreshRayCount(IntPtr emitter, int value);
+        [DllImport(Constants.DLL_NAME, CallingConvention = CallingConvention.Cdecl, EntryPoint = "vaEmitterSetTrailRefreshCount")]
+        public static extern VAResult SetTrailRefreshCount(IntPtr emitter, int value);
 
         [DllImport(Constants.DLL_NAME, CallingConvention = CallingConvention.Cdecl, EntryPoint = "vaEmitterGetRefreshDistanceThreshold")]
         public static extern float GetRefreshDistanceThreshold(IntPtr emitter);

@@ -349,10 +349,16 @@ namespace vaudionativewrapper.managed
             return callbacks;
         }
 
-        /// <summary>Get properties for a specific material.</summary>
+        /// <summary>Get properties for a specific material</summary>
         public MaterialProperties GetMaterial(MaterialType type)
         {
             return new MaterialProperties(native, (int)type);
+        }
+
+        /// <summary>Returns true if a material exists</summary>
+        public bool HasMaterial(MaterialType type)
+        {
+            return WorldBindings.HasMaterial(native, (int)type);
         }
 
         private GCHandle _onReverbUpdatedHandle;

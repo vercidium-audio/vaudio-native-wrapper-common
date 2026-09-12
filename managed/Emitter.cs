@@ -254,10 +254,10 @@ namespace vaudionativewrapper.managed
         }
 
         /// <summary>The number of trails that are rebuilt from scratch each frame to prevent staleness when the listener moves. Clamped to minimum of 0.</summary>
-        public int RefreshRayCount
+        public int TrailRefreshCount
         {
-            get => EmitterBindings.GetRefreshRayCount(native);
-            set => EmitterBindings.SetRefreshRayCount(native, value).ThrowIfError();
+            get => EmitterBindings.GetTrailRefreshCount(native);
+            set => EmitterBindings.SetTrailRefreshCount(native, value).ThrowIfError();
         }
 
         /// <summary>A ray trail will be re-created if an old ray bounce position is too far away from the new ray bounce position. This setting controls the allowed distance between old and new ray bounce positions. Defaults to 1.0f. Clamped to minimum of 0.</summary>

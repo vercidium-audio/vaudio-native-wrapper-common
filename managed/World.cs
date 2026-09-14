@@ -224,13 +224,6 @@ namespace vaudionativewrapper.managed
             set => WorldBindings.SetEmittersOutsideTheWorldAreMuffled(native, value).ThrowIfError();
         }
 
-        /// <summary>Whether the entire world is considered indoors or outdoors. When false, reverb rays stop accumulating energy after hitting the world edge. Defaults to false.</summary>
-        public bool WorldIsIndoors
-        {
-            get => WorldBindings.GetWorldIsIndoors(native);
-            set => WorldBindings.SetWorldIsIndoors(native, value).ThrowIfError();
-        }
-
         /// <summary>True until raytracing has run at least once</summary>
         public bool Initialising => WorldBindings.GetInitialising(native);
 

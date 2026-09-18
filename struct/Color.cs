@@ -6,7 +6,7 @@ namespace vaudionativewrapper
     [StructLayout(LayoutKind.Sequential)]
     public struct Color
     {
-        /// <summary>Creates a color from byte components. Alpha defaults to 255</summary>
+        /// <summary>Creates a color from byte components</summary>
         public Color(byte r, byte g, byte b, byte a = 255)
         {
             R = r;

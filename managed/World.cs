@@ -59,7 +59,7 @@ namespace vaudionativewrapper.managed
         }
 #endif
 
-        /// <summary>Updates the raytracing simulation. Call this method regularly to process raytracing results and submit new work. This method does nothing if background raytracing threads are still running. When threads are idle, it performs the following operations: - Handles the last raytracing results, updating reverb objects and invoking OnRaytracedByAnotherEmitter callbacks - Applies new settings and resizes memory buffers if needed (e.g. if ray counts were changed) - Processes new, modified, and removed primitives - Starts raytracing again on background threads This method must be called from the main thread. Calling this more frequently is safe and can reduce latency for emitter updates.</summary>
+        /// <summary>Update the raytracing simulation. Call this method regularly to process raytracing results and submit new work. This method does nothing if background raytracing threads are still running. When threads are idle, it performs the following operations: - Handles the last raytracing results, updating reverb objects and invoking OnRaytracedByAnotherEmitter callbacks - Applies new settings and resizes memory buffers if needed (e.g. if ray counts were changed) - Processes new, modified, and removed primitives - Starts raytracing again on background threads This method must be called from the main thread. Calling this more frequently is safe and can reduce latency for emitter updates.</summary>
         public VAResult Update()
         {
             var result = WorldBindings.Update(native);
@@ -112,13 +112,13 @@ namespace vaudionativewrapper.managed
         /// <summary>Sets the debug rendering colour for a specific material type (dev build only). No effect on raytracing.</summary>
         public void SetMaterialColor(int materialId, Color color) => WorldBindings.SetMaterialColor(native, materialId, color).ThrowIfError();
 
-        /// <summary>Adds a 3D object to the raytracing scene. This method is thread-safe and will not affect the current raytracing threads. Primitives completely outside the world bounds will be ignored during raytracing.</summary>
+        /// <summary>Adds a primitive to the raytracing simulation. This method is thread-safe and will not affect the current raytracing threads. Primitives completely outside the world bounds will be ignored during raytracing.</summary>
         public void AddPrimitive(Primitive primitive)
         {
             WorldBindings.AddPrimitive(native, primitive.native).ThrowIfError();
         }
 
-        /// <summary>Removes a 3D object from the raytracing scene. This method is thread-safe and will not affect the current raytracing threads.</summary>
+        /// <summary>Removes a primitive from the raytracing simulation. This method is thread-safe and will not affect the current raytracing threads.</summary>
         public void RemovePrimitive(Primitive primitive)
         {
             WorldBindings.RemovePrimitive(native, primitive.native).ThrowIfError();
@@ -262,14 +262,14 @@ namespace vaudionativewrapper.managed
             set => WorldBindings.SetMaximumConcurrencyLevel(native, value).ThrowIfError();
         }
 
-        /// <summary>Get meters per world unit. Affects air absorption and reverb calculation.</summary>
+        /// <summary>Meters per world unit. Affects air absorption and reverb calculation.</summary>
         public float MetersPerUnit
         {
             get => WorldBindings.GetMetersPerUnit(native);
             set => WorldBindings.SetMetersPerUnit(native, value).ThrowIfError();
         }
 
-        /// <summary>Inverse speed of sound in seconds per meter. Defaults to 1.0f / 343.0f. Affects reverb calculation</summary>
+        /// <summary>Inverse speed of sound in seconds per meter. Affects reverb calculation</summary>
         public float InverseSpeedOfSound
         {
             get => WorldBindings.GetInverseSpeedOfSound(native);
@@ -290,7 +290,7 @@ namespace vaudionativewrapper.managed
             set => WorldBindings.SetReferenceFrequencyHF(native, value).ThrowIfError();
         }
 
-        /// <summary>The epsilon value used for raytracing and primitive intersections. Defaults to 0.01f</summary>
+        /// <summary>The epsilon value used for raytracing and primitive intersections</summary>
         public float Epsilon
         {
             get => WorldBindings.GetEpsilon(native);
@@ -368,7 +368,7 @@ namespace vaudionativewrapper.managed
         private GCHandle _onReverbUpdatedHandle;
         private GCHandle _logCallbackHandle;
 
-        /// <summary>This callback is invoked after EAX reverb results are updated. This gives you a chance to update your EAX effects, so they can be applied to an emitter in it's OnRaytracingComplete callback. After this, each emitter's callback are invoked, and then OnRaytracingResultsHandled will be invoked next.</summary>
+        /// <summary>This callback is invoked after EAX reverb results are updated. This gives you a chance to update your EAX effects, so they can be applied to an emitter in its OnRaytracingComplete callback. After this, each emitter's callbacks are invoked, and then OnRaytracingResultsHandled is invoked.</summary>
         public Action OnReverbUpdated
         {
             set
@@ -437,7 +437,7 @@ namespace vaudionativewrapper.managed
 
 #region Rendering
 
-        /// <summary>Whether to render the raytracing scene in a separate window (dev build only)</summary>
+        /// <summary>Whether to render the raytracing simulation in a separate window (dev build only)</summary>
         public bool RenderingEnabled
         {
             get => WorldBindings.GetRenderingEnabled(native);

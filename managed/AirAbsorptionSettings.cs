@@ -35,21 +35,21 @@ namespace vaudionativewrapper.managed
 #endif
         }
 
-        /// <summary>Relative humidity as a percentage (0–1). Defaults to 0.1f</summary>
+        /// <summary>Relative humidity as a percentage</summary>
         public float Humidity
         {
             get => AirAbsorptionSettingsBindings.GetHumidity(native);
             set => AirAbsorptionSettingsBindings.SetHumidity(native, value).ThrowIfError();
         }
 
-        /// <summary>Air temperature in degrees Celsius. Defaults to 26</summary>
+        /// <summary>Air temperature in degrees Celsius</summary>
         public float Temperature
         {
             get => AirAbsorptionSettingsBindings.GetTemperature(native);
             set => AirAbsorptionSettingsBindings.SetTemperature(native, value).ThrowIfError();
         }
 
-        /// <summary>Atmospheric pressure in Pascals. Defaults to 101325</summary>
+        /// <summary>Atmospheric pressure in Pascals</summary>
         public float Pressure
         {
             get => AirAbsorptionSettingsBindings.GetPressure(native);

@@ -3,7 +3,7 @@ using System.Runtime.InteropServices;
 
 namespace vaudionativewrapper.managed
 {
-    /// <summary>An entity that casts rays, and can be discovered by other emitters</summary>
+    /// <summary>Emitters cast rays and can be discovered by other emitters</summary>
     public unsafe class Emitter
     {
         public IntPtr native;
@@ -128,7 +128,7 @@ namespace vaudionativewrapper.managed
             set => EmitterBindings.SetClampPosition(native, value).ThrowIfError();
         }
 
-        /// <summary>Custom name field. Displayed in the debug window</summary>
+        /// <summary>Name that is displayed in the debug window</summary>
         public string Name
         {
             get => EmitterBindings.GetName(native);
@@ -142,7 +142,7 @@ namespace vaudionativewrapper.managed
             set => EmitterBindings.SetType(native, value).ThrowIfError();
         }
 
-        /// <summary>Custom user data for this emitter</summary>
+        /// <summary>Custom user data</summary>
         public IntPtr UserData
         {
             get => EmitterBindings.GetUserData(native);
@@ -303,7 +303,7 @@ namespace vaudionativewrapper.managed
             set => EmitterBindings.SetAmbientPermeationEnergyCap(native, value).ThrowIfError();
         }
 
-        /// <summary>The loudest linear volume (0–1) this emitter's dry source will ever be played at by the consuming application. Used to estimate how long the emitter's reverb tail stays audible in GetEffectiveTailSeconds - a quieter source reaches an inaudible reverb tail sooner. Defaults to 1 (full volume)</summary>
+        /// <summary>The loudest linear volume (0–1) this emitter's dry source will ever be played at by the consuming application. Used to estimate how long the emitter's reverb tail stays audible in GetEffectiveTailSeconds - a quieter source reaches an inaudible reverb tail sooner.</summary>
         public float MaxVolume
         {
             get => EmitterBindings.GetMaxVolume(native);

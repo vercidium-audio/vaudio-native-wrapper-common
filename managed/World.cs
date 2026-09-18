@@ -4,7 +4,7 @@ using System.Runtime.InteropServices;
 
 namespace vaudionativewrapper.managed
 {
-    /// <summary>A standalone world with its own primitives, emitters, materials and settings</summary>
+    /// <summary>A standalone world with its own primitives, emitters, materials and settings. Manages its own raytracing and multithreading</summary>
     public unsafe partial class World
     {
         public IntPtr native;
@@ -184,7 +184,7 @@ namespace vaudionativewrapper.managed
             UpdateWorldSize(size);
         }
 
-        /// <summary>The average time (in milliseconds) spent by Update on the main thread. This includes time spent handling previous raytracing results, applying new settings, processing primitive updates and submitting work to background threads. Use this metric to monitor main thread performance impact.</summary>
+        /// <summary>The average time (in milliseconds) spent by Update on the main thread. This includes time spent handling previous raytracing results, applying new settings, processing primitive updates and submitting work to background threads.</summary>
         public double MainThreadTime => WorldBindings.GetMainThreadTime(native);
         
         /// <summary>The average time (in milliseconds) spent in the preparation thread before the raytracing threads begin. This phase updates the BVH (Bounding Volume Hierarchy) acceleration structure with new, modified, and removed primitives. Higher values are a result of complex scene changes.</summary>
@@ -196,19 +196,19 @@ namespace vaudionativewrapper.managed
         /// <summary>The average time (in milliseconds) spent in the analysing thread after the raytracing threads complete. This phase runs after raytracing completes and calculate reverb properties. Use this to monitor raytracing performance and adjust ray counts if needed.</summary>
         public double AnalysisTime => WorldBindings.GetAnalysisTime(native);
 
-        /// <summary>The average time (in milliseconds) between submitting work to the background thread pool and the first worker thread waking up. High values indicate thread wake-up / scheduling latency rather than raytracing work itself.</summary>
+        /// <summary>The average time (in milliseconds) between submitting work to the background thread pool and the first worker thread waking up. High values indicate thread wake-up / scheduling latency rather than raytracing work itself. Not available in the WASM build.</summary>
         public double SubmitToWakeTime => WorldBindings.GetSubmitToWakeTime(native);
 
-        /// <summary>The average time (in milliseconds) between the first worker thread waking up and the preparation work item (BVH build) finishing. This is the real-world elapsed time spent building/updating the BVH before emitter raytracing work is fanned out to other threads.</summary>
+        /// <summary>The average time (in milliseconds) between the first worker thread waking up and the preparation work item (BVH build) finishing. This is the real-world elapsed time spent building/updating the BVH before emitter raytracing work is fanned out to other threads. Not available in the WASM build.</summary>
         public double WakeToFanoutTime => WorldBindings.GetWakeToFanoutTime(native);
 
-        /// <summary>The average time (in milliseconds) between the preparation work item fanning out emitter work, and the last fanned-out worker thread actually waking up to start it. High values indicate OS scheduling/wake latency across multiple threads, not time spent doing raytracing work.</summary>
+        /// <summary>The average time (in milliseconds) between the preparation work item fanning out emitter work, and the last fanned-out worker thread actually waking up to start it. High values indicate OS scheduling/wake latency across multiple threads, not time spent doing raytracing work. Not available in the WASM build.</summary>
         public double FanoutToLastWakeTime => WorldBindings.GetFanoutToLastWakeTime(native);
 
-        /// <summary>The average time (in milliseconds) between the last fanned-out worker thread waking up and the last emitter/visualisation work item completing. This isolates actual raytracing/visualisation work and work-queue contention from thread wake-up latency.</summary>
+        /// <summary>The average time (in milliseconds) between the last fanned-out worker thread waking up and the last emitter/visualisation work item completing. This isolates actual raytracing/visualisation work and work-queue contention from thread wake-up latency. Not available in the WASM build.</summary>
         public double LastWakeToWorkTime => WorldBindings.GetLastWakeToWorkTime(native);
 
-        /// <summary>The average time (in milliseconds) spent executing the completion work item (reverb analysis) itself.</summary>
+        /// <summary>The average time (in milliseconds) spent executing the completion work item (reverb analysis) itself. This runs inline on whichever thread finishes the last emitter/visualisation work item, immediately after the last work item completes and before the completion event is released. Not available in the WASM build.</summary>
         public double CompletionWorkTime => WorldBindings.GetCompletionWorkTime(native);
 
         /// <summary>List of grouped EAX reverb properties for all emitters. Contains parameters compatible with EAX reverb effects.</summary>
@@ -297,7 +297,7 @@ namespace vaudionativewrapper.managed
             set => WorldBindings.SetEpsilon(native, value).ThrowIfError();
         }
 
-        /// <summary>The average time (in milliseconds) between when Update is invoked, and when OnReverbUpdated is invoked.</summary>
+        /// <summary>The average time (in milliseconds) between when Update is invoked, and when the OnReverbUpdated callback is invoked.</summary>
         public double Latency => WorldBindings.GetLatency(native);
 
         public IntPtr UserData
@@ -353,7 +353,7 @@ namespace vaudionativewrapper.managed
             return callbacks;
         }
 
-        /// <summary>Get properties for a specific material</summary>
+        /// <summary>Get properties for a specific material.</summary>
         public MaterialProperties GetMaterial(MaterialType type)
         {
             return new MaterialProperties(native, (int)type);
@@ -513,7 +513,7 @@ namespace vaudionativewrapper.managed
             }
         }
 
-        /// <summary>Multiplier for the size of rendered visualisation rays in the debug window. Defaults to 1. Clamped to a minimum of 0 (dev build only)</summary>
+        /// <summary>The size of visualisation rays in the debug window (dev build only)</summary>
         public float VisualisationScale
         {
             get => WorldBindings.GetVisualisationScale(native);

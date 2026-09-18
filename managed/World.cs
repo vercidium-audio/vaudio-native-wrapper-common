@@ -25,6 +25,17 @@ namespace vaudionativewrapper.managed
 #endif
         }
 
+        /// <summary>Create a new world that connects to a debug window on the specified host and port</summary>
+        public World(string debugWindowHost, int debugWindowPort)
+        {
+            native = WorldBindings.CreateWithNetworking(debugWindowHost, debugWindowPort);
+            owns = true;
+
+#if DEBUG
+            stackTrace = Environment.StackTrace;
+#endif
+        }
+
         public World(IntPtr native)
         {
             this.native = native;

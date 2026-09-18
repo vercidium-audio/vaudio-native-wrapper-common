@@ -7,6 +7,8 @@ namespace vaudionativewrapper
     {
         [DllImport(Constants.DLL_NAME, CallingConvention = CallingConvention.Cdecl, EntryPoint = "vaWorldCreate")]
         public static extern IntPtr Create();
+        [DllImport(Constants.DLL_NAME, CallingConvention = CallingConvention.Cdecl, EntryPoint = "vaWorldCreateWithNetworking")]
+        public static extern IntPtr CreateWithNetworking([MarshalAs(UnmanagedType.LPStr)] string debugWindowHost, int debugWindowPort);
         [DllImport(Constants.DLL_NAME, CallingConvention = CallingConvention.Cdecl, EntryPoint = "vaWorldDestroy")]
         public static extern VAResult Destroy(IntPtr world);
 

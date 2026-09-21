@@ -54,7 +54,7 @@ namespace vaudionativewrapper.managed
         }
 #endif
 
-        /// <summary>Add an emitter to this emitter's target list</summary>
+        /// <summary>Add an emitter to the list of target emitters</summary>
         public void AddTarget(Emitter target) => EmitterBindings.AddTarget(native, target.native);
 
         /// <summary>Remove an emitter from this emitter's target list</summary>
@@ -74,7 +74,7 @@ namespace vaudionativewrapper.managed
 #endregion
 
 #region Properties
-        /// <summary>The position of this Emitter. Can be a Vector3F or IPosition</summary>
+        /// <summary>World-space position. Can be a Vector3F or FuncPosition</summary>
         public Vector Position
         {
             get => EmitterBindings.GetPosition(native);

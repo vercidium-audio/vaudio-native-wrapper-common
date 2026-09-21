@@ -124,7 +124,7 @@ namespace vaudionativewrapper.managed
             WorldBindings.RemovePrimitive(native, primitive.native).ThrowIfError();
         }
 
-        /// <summary>Add an Emitter to the world. This method is thread-safe and will not affect the current raytracing threads.</summary>
+        /// <summary>Add an Emitter to the raytracing simulation. This method is thread-safe and will not affect the current raytracing threads.</summary>
         public void AddEmitter(Emitter emitter)
         {
             WorldBindings.AddEmitter(native, emitter.native).ThrowIfError();
@@ -136,7 +136,7 @@ namespace vaudionativewrapper.managed
             return WorldBindings.HasEmitter(native, emitter.native);
         }
 
-        /// <summary>Remove an Emitter from the world. This method is thread-safe and will not affect the current raytracing threads. This emitter's OnRaytracingComplete callback will not be invoked.</summary>
+        /// <summary>Remove an Emitter from the raytracing simulation. This method is thread-safe and will not affect the current raytracing threads. This emitter's OnRaytracingComplete callback will not be invoked.</summary>
         public void RemoveEmitter(Emitter emitter)
         {
             WorldBindings.RemoveEmitter(native, emitter.native).ThrowIfError();

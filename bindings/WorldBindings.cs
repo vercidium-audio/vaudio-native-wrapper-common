@@ -7,6 +7,8 @@ namespace vaudionativewrapper
     {
         [DllImport(Constants.DLL_NAME, CallingConvention = CallingConvention.Cdecl, EntryPoint = "vaWorldCreate")]
         public static extern IntPtr Create();
+        [DllImport(Constants.DLL_NAME, CallingConvention = CallingConvention.Cdecl, EntryPoint = "vaWorldCreateWithNetworking")]
+        public static extern IntPtr CreateWithNetworking([MarshalAs(UnmanagedType.LPStr)] string debugWindowHost, int debugWindowPort);
         [DllImport(Constants.DLL_NAME, CallingConvention = CallingConvention.Cdecl, EntryPoint = "vaWorldDestroy")]
         public static extern VAResult Destroy(IntPtr world);
 
@@ -178,12 +180,6 @@ namespace vaudionativewrapper
         [return: MarshalAs(UnmanagedType.U1)]
         public static extern bool GetEmittersOutsideTheWorldAreMuffled(IntPtr ctx);
 
-        [DllImport(Constants.DLL_NAME, CallingConvention = CallingConvention.Cdecl, EntryPoint = "vaWorldSetWorldIsIndoors")]
-        public static extern VAResult SetWorldIsIndoors(IntPtr ctx, bool value);
-        [DllImport(Constants.DLL_NAME, CallingConvention = CallingConvention.Cdecl, EntryPoint = "vaWorldGetWorldIsIndoors")]
-        [return: MarshalAs(UnmanagedType.U1)]
-        public static extern bool GetWorldIsIndoors(IntPtr ctx);
-
         [DllImport(Constants.DLL_NAME, CallingConvention = CallingConvention.Cdecl, EntryPoint = "vaWorldGetEmitterCount")]
         public static extern int GetEmitterCount(IntPtr ctx);
 
@@ -281,6 +277,11 @@ namespace vaudionativewrapper
         public static extern void GetWindowSize(IntPtr world, out int width, out int height);
         [DllImport(Constants.DLL_NAME, CallingConvention = CallingConvention.Cdecl, EntryPoint = "vaWorldSetWindowSize")]
         public static extern VAResult SetWindowSize(IntPtr world, int width, int height);
+
+        [DllImport(Constants.DLL_NAME, CallingConvention = CallingConvention.Cdecl, EntryPoint = "vaWorldGetVisualisationScale")]
+        public static extern float GetVisualisationScale(IntPtr world);
+        [DllImport(Constants.DLL_NAME, CallingConvention = CallingConvention.Cdecl, EntryPoint = "vaWorldSetVisualisationScale")]
+        public static extern VAResult SetVisualisationScale(IntPtr world, float value);
 
         #endregion
     }

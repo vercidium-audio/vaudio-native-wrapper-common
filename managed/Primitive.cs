@@ -24,7 +24,7 @@ namespace vaudionativewrapper.managed
 
         public Primitive() { }
 
-        /// <summary>Determines the amount of energy lost when rays bounce off this primitive, permeate through it, and scatter off it</summary>
+        /// <summary>Controls the amount of energy lost when rays bounce off this primitive and pass through it</summary>
         public MaterialType material
         {
             get => PrimitiveBindings.GetMaterial(native);

@@ -14,21 +14,21 @@ namespace vaudionativewrapper.managed
             this.id = id;
         }
 
-        /// <summary>Percentage of low-frequency energy that is lost on each bounce (0.0 to 1.0).</summary>
+        /// <summary>Percentage of low-frequency energy that is lost on each bounce</summary>
         public float AbsorptionLF
         {
             get => WorldBindings.GetMaterialAbsorptionLF(world, id);
             set => WorldBindings.SetMaterialAbsorptionLF(world, id, value);
         }
 
-        /// <summary>Percentage of high-frequency energy that is lost on each bounce (0.0 to 1.0).</summary>
+        /// <summary>Percentage of high-frequency energy that is lost on each bounce</summary>
         public float AbsorptionHF
         {
             get => WorldBindings.GetMaterialAbsorptionHF(world, id);
             set => WorldBindings.SetMaterialAbsorptionHF(world, id, value);
         }
 
-        /// <summary>Scattering strength (0.0 to 1.0), where 0.0 has no scattering and 1.0 skews the ray reflection direction by up to 90 degrees</summary>
+        /// <summary>Scattering strength, where 0.0 has no scattering and 1.0 skews the reflected ray direction by up to 90 degrees</summary>
         public float Scattering
         {
             get => WorldBindings.GetMaterialScattering(world, id);
@@ -49,14 +49,14 @@ namespace vaudionativewrapper.managed
             set => WorldBindings.SetMaterialTransmissionHF(world, id, value);
         }
 
-        /// <summary>Percentage of low-frequency energy lost when a ray touches a Plane, Disk, Triangle, Line, non-watertight Mesh, non-enclosed Polygon or open Path primitive, instead of calculating how long the ray spent inside it. Ranges from 0.0 to 1.0</summary>
+        /// <summary>Percentage of low-frequency energy lost when a ray touches a primitive with UseFlatTransmission set to true, instead of calculating how long the ray spent inside it</summary>
         public float FlatTransmissionLF
         {
             get => WorldBindings.GetMaterialFlatTransmissionLF(world, id);
             set => WorldBindings.SetMaterialFlatTransmissionLF(world, id, value);
         }
 
-        /// <summary>Percentage of high-frequency energy lost when a ray touches a Plane, Disk, Triangle, Line, non-watertight Mesh, non-enclosed Polygon or open Path primitive, instead of calculating how long the ray spent inside it. Ranges from 0.0 to 1.0</summary>
+        /// <summary>Percentage of high-frequency energy lost when a ray touches a primitive with UseFlatTransmission set to true, instead of calculating how long the ray spent inside it</summary>
         public float FlatTransmissionHF
         {
             get => WorldBindings.GetMaterialFlatTransmissionHF(world, id);

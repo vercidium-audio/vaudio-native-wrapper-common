@@ -259,7 +259,7 @@ namespace vaudionativewrapper.managed
             lateReverbGain = MathF.Sqrt(lateEnergy / referenceEnergy);
         }
 
-        /// <summary>Calculates the RT60 reverberation time in seconds for a given echogram using linear regression on the decay slope</summary>
+        /// <summary>Calculates the RT60 reverberation time in seconds for a given echogram using the Schroeder backward-integrated decay curve</summary>
         public virtual float CalculateRT60(float[] echogram)
         {
             // Convert energy to dB scale

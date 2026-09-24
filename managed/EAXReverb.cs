@@ -55,6 +55,10 @@ namespace vaudionativewrapper.managed
         /// <summary>Whether to limit high-frequency decay time to the air absorption limit (0 or 1)</summary>
         public int DecayHFLimit => native->decayHFLimit;
 
+        /// <summary>
+        /// The direction that reverb should be heard from for the provided emitter, which must have HasRelativeReverb set to true. Returns null if no entry exists for this emitter.<br/>
+        /// This is a world-space direction (in the world's CoordinateSystem), not listener space, as emitters have no orientation. Use World.ConvertWorldToListenerDirection with the listener's rotation to get a listener-space direction for EFX reflections/late reverb pan.
+        /// </summary>
         public Vector? GetRelativeDirection(Emitter emitter)
         {
             var ptr = EAXReverbResultsBindings.GetRelativeDirection((IntPtr)native, emitter.native);

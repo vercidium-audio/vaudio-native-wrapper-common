@@ -31,6 +31,7 @@ namespace vaudionativewrapper
         True = 24,
         False = 25,
         WrongDimension = 26,
+        MissingMaterialCallback = 27,
     }
 
     public static class VAResultExtensions

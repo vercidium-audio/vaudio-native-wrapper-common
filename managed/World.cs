@@ -49,7 +49,12 @@ namespace vaudionativewrapper.managed
 
             WorldBindings.Destroy(native).ThrowIfError();
             native = IntPtr.Zero;
+
+            OnDestroyDimensional();
         }
+
+        // Frees per-dimension resources that native referenced, once the native world is destroyed
+        partial void OnDestroyDimensional();
 
 #if DEBUG
         ~World()

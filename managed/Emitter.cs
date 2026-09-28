@@ -376,7 +376,7 @@ namespace vaudionativewrapper.managed
         public LowPassFilter* AmbientFilter => EmitterBindings.GetAmbientFilter(native);
 
         /// <summary>Whether this emitter casts rays. False if all ray counts and/or bounce counts are set to 0.</summary>
-        public bool CastsRays => EmitterBindings.CastsAnyRays(native);
+        public bool CreatesTrails => EmitterBindings.CreatesTrails(native);
         /// <summary>Emitters outside the world bounds will not be raytraced. Set ClampPosition to true to keep this emitter within the world bounds</summary>
         public bool WithinWorldBounds => EmitterBindings.WithinWorldBounds(native);
         /// <summary>The index of this emitter's EAX object in GroupedEAX</summary>

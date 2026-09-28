@@ -226,9 +226,9 @@ namespace vaudionativewrapper
         [return: MarshalAs(UnmanagedType.U1)]
         public static extern bool VisualisationEnabled(IntPtr emitter);
 
-        [DllImport(Constants.DLL_NAME, CallingConvention = CallingConvention.Cdecl, EntryPoint = "vaEmitterGetCastsAnyRays")]
+        [DllImport(Constants.DLL_NAME, CallingConvention = CallingConvention.Cdecl, EntryPoint = "vaEmitterGetCreatesTrails")]
         [return: MarshalAs(UnmanagedType.U1)]
-        public static extern bool CastsAnyRays(IntPtr emitter);
+        public static extern bool CreatesTrails(IntPtr emitter);
 
         [DllImport(Constants.DLL_NAME, CallingConvention = CallingConvention.Cdecl, EntryPoint = "vaEmitterGetWithinWorldBounds")]
         [return: MarshalAs(UnmanagedType.U1)]

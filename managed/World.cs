@@ -152,6 +152,13 @@ namespace vaudionativewrapper.managed
             return WorldBindings.GetEmitterCount(native);
         }
 
+        /// <summary>Name that is displayed in the debug window</summary>
+        public string Name
+        {
+            get => WorldBindings.GetName(native);
+            set => WorldBindings.SetName(native, value).ThrowIfError();
+        }
+
         /// <summary>The size of the world. Emitters outside the world will not be raytraced, and Primitives that are fully outside these bounds will be ignored</summary>
         public Vector Size
         {
@@ -239,9 +246,6 @@ namespace vaudionativewrapper.managed
             get => WorldBindings.GetEmittersOutsideTheWorldAreMuffled(native);
             set => WorldBindings.SetEmittersOutsideTheWorldAreMuffled(native, value).ThrowIfError();
         }
-
-        /// <summary>True until raytracing has run at least once</summary>
-        public bool Initialising => WorldBindings.GetInitialising(native);
 
         /// <summary>The number of rays cast this frame.</summary>
         public int RaysCastThisFrame => WorldBindings.GetRaysCastThisFrame(native);

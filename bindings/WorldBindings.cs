@@ -183,9 +183,13 @@ namespace vaudionativewrapper
         [DllImport(Constants.DLL_NAME, CallingConvention = CallingConvention.Cdecl, EntryPoint = "vaWorldGetEmitterCount")]
         public static extern int GetEmitterCount(IntPtr ctx);
 
-        [DllImport(Constants.DLL_NAME, CallingConvention = CallingConvention.Cdecl, EntryPoint = "vaWorldGetInitialising")]
-        [return: MarshalAs(UnmanagedType.U1)]
-        public static extern bool GetInitialising(IntPtr ctx);
+        [DllImport(Constants.DLL_NAME, CallingConvention = CallingConvention.Cdecl, EntryPoint = "vaWorldSetName")]
+        public static extern VAResult SetName(IntPtr ctx, [MarshalAs(UnmanagedType.LPStr)] string name);
+
+        [DllImport(Constants.DLL_NAME, CallingConvention = CallingConvention.Cdecl, EntryPoint = "vaWorldGetName")]
+        private static extern IntPtr GetNameRaw(IntPtr ctx);
+        public static string GetName(IntPtr ctx) => Marshal.PtrToStringAnsi(GetNameRaw(ctx));
+
         [DllImport(Constants.DLL_NAME, CallingConvention = CallingConvention.Cdecl, EntryPoint = "vaWorldSetOnRaytracingCompletedCallback")]
         public static extern VAResult SetOnRaytracingCompleted(IntPtr ctx, IntPtr callback);
         [DllImport(Constants.DLL_NAME, CallingConvention = CallingConvention.Cdecl, EntryPoint = "vaWorldSetOnReverbUpdatedCallback")]

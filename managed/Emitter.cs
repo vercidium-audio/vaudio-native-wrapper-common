@@ -310,11 +310,39 @@ namespace vaudionativewrapper.managed
             set => EmitterBindings.SetMaxVolume(native, value).ThrowIfError();
         }
 
-        /// <summary>Optimisation field - permeation rays will be cancelled when they drop below this energy threshold</summary>
+        /// <summary>Optimisation field - permeation rays will stop bouncing when their energy drops below this threshold.</summary>
         public float MinimumPermeationEnergy
         {
             get => EmitterBindings.GetMinimumPermeationEnergy(native);
             set => EmitterBindings.SetMinimumPermeationEnergy(native, value).ThrowIfError();
+        }
+
+        /// <summary>Optimisation field - reverb rays will stop bouncing when their energy drops below this threshold.</summary>
+        public float MinimumReverbEnergy
+        {
+            get => EmitterBindings.GetMinimumReverbEnergy(native);
+            set => EmitterBindings.SetMinimumReverbEnergy(native, value).ThrowIfError();
+        }
+
+        /// <summary>Optimisation field - occlusion rays will stop bouncing when their low-frequency energy drops below this threshold.</summary>
+        public float MinimumOcclusionEnergy
+        {
+            get => EmitterBindings.GetMinimumOcclusionEnergy(native);
+            set => EmitterBindings.SetMinimumOcclusionEnergy(native, value).ThrowIfError();
+        }
+
+        /// <summary>Optimisation field - ambient permeation rays will stop permeating when their energy drops below this threshold.</summary>
+        public float MinimumAmbientPermeationEnergy
+        {
+            get => EmitterBindings.GetMinimumAmbientPermeationEnergy(native);
+            set => EmitterBindings.SetMinimumAmbientPermeationEnergy(native, value).ThrowIfError();
+        }
+
+        /// <summary>Optimisation field - ambient occlusion rays will stop bouncing when their low-frequency energy drops below this threshold.</summary>
+        public float MinimumAmbientOcclusionEnergy
+        {
+            get => EmitterBindings.GetMinimumAmbientOcclusionEnergy(native);
+            set => EmitterBindings.SetMinimumAmbientOcclusionEnergy(native, value).ThrowIfError();
         }
 
         /// <summary>Seed used to randomise scattering vectors</summary>

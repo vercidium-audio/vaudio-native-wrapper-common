@@ -4,7 +4,7 @@ using System.Runtime.InteropServices;
 
 namespace vaudionativewrapper.managed
 {
-    /// <summary>A standalone world with its own primitives, emitters, materials and settings. Manages its own raytracing and multithreading</summary>
+    /// <summary>A standalone world with its own primitives, emitters, materials and settings. Manages its own raytracing and multithreading.</summary>
     public unsafe partial class World
     {
         public IntPtr native;
@@ -49,7 +49,12 @@ namespace vaudionativewrapper.managed
 
             WorldBindings.Destroy(native).ThrowIfError();
             native = IntPtr.Zero;
+
+            OnDestroyDimensional();
         }
+
+        // Frees per-dimension resources that native referenced, once the native world is destroyed
+        partial void OnDestroyDimensional();
 
 #if DEBUG
         ~World()
@@ -59,7 +64,7 @@ namespace vaudionativewrapper.managed
         }
 #endif
 
-        /// <summary>Update the raytracing simulation. Call this method regularly to process raytracing results and submit new work. This method does nothing if background raytracing threads are still running. When threads are idle, it performs the following operations: - Handles the last raytracing results, updating reverb objects and invoking OnRaytracedByAnotherEmitter callbacks - Applies new settings and resizes memory buffers if needed (e.g. if ray counts were changed) - Processes new, modified, and removed primitives - Starts raytracing again on background threads This method must be called from the main thread. Calling this more frequently is safe and can reduce latency for emitter updates.</summary>
+        /// <summary>Update the raytracing simulation. Call this method regularly to process raytracing results and submit new work. This method does nothing if background raytracing threads are still running. If the threads ahve completed, it performs the following operations: - Handles the last raytracing results, updating reverb objects and invoking OnRaytracedByAnotherEmitter and other callbacks - Applies new settings and resizes memory buffers if needed (e.g. if ray counts were changed) - Processes new, modified, and removed primitives - Starts raytracing again on background threads This method must be called from the main thread. Calling this more frequently is safe and can reduce latency for emitter updates.</summary>
         public VAResult Update()
         {
             var result = WorldBindings.Update(native);
@@ -67,7 +72,7 @@ namespace vaudionativewrapper.managed
             return result;
         }
 
-        /// <summary>Blocks the calling thread until all background raytracing threads complete, then handles the results (updates reverb objects and invokes OnRaytracingComplete and OnRaytracedByAnotherEmitter callbacks for each emitter).</summary>
+        /// <summary>Blocks until all background raytracing threads complete, then handles the results (updates reverb objects and invokes OnRaytracingComplete and OnRaytracedByAnotherEmitter callbacks for each emitter).</summary>
         public VAResult Wait()
         {
             var result = WorldBindings.Wait(native);
@@ -112,13 +117,14 @@ namespace vaudionativewrapper.managed
         /// <summary>Sets the debug rendering colour for a specific material type (dev build only). No effect on raytracing.</summary>
         public void SetMaterialColor(int materialId, Color color) => WorldBindings.SetMaterialColor(native, materialId, color).ThrowIfError();
 
-        /// <summary>Adds a primitive to the raytracing simulation. This method is thread-safe and will not affect the current raytracing threads. Primitives completely outside the world bounds will be ignored during raytracing.</summary>
+        /// <summary>Add a primitive to the raytracing simulation. This method is thread-safe and will not affect the current raytracing threads. Primitives completely outside the world bounds will be ignored during raytracing.</summary>
         public void AddPrimitive(Primitive primitive)
         {
             WorldBindings.AddPrimitive(native, primitive.native).ThrowIfError();
+            primitive.OnAddedToWorld();
         }
 
-        /// <summary>Removes a primitive from the raytracing simulation. This method is thread-safe and will not affect the current raytracing threads.</summary>
+        /// <summary>Remove a primitive from the raytracing simulation. This method is thread-safe and will not affect the current raytracing threads.</summary>
         public void RemovePrimitive(Primitive primitive)
         {
             WorldBindings.RemovePrimitive(native, primitive.native).ThrowIfError();
@@ -145,6 +151,13 @@ namespace vaudionativewrapper.managed
         public int GetEmitterCount()
         {
             return WorldBindings.GetEmitterCount(native);
+        }
+
+        /// <summary>This name is displayed in the debug window.</summary>
+        public string Name
+        {
+            get => WorldBindings.GetName(native);
+            set => WorldBindings.SetName(native, value).ThrowIfError();
         }
 
         /// <summary>The size of the world. Emitters outside the world will not be raytraced, and Primitives that are fully outside these bounds will be ignored</summary>
@@ -235,9 +248,6 @@ namespace vaudionativewrapper.managed
             set => WorldBindings.SetEmittersOutsideTheWorldAreMuffled(native, value).ThrowIfError();
         }
 
-        /// <summary>True until raytracing has run at least once</summary>
-        public bool Initialising => WorldBindings.GetInitialising(native);
-
         /// <summary>The number of rays cast this frame.</summary>
         public int RaysCastThisFrame => WorldBindings.GetRaysCastThisFrame(native);
 
@@ -246,6 +256,13 @@ namespace vaudionativewrapper.managed
         {
             get => WorldBindings.GetMaximumGroupedEAXCount(native);
             set => WorldBindings.SetMaximumGroupedEAXCount(native, value).ThrowIfError();
+        }
+
+        /// <summary>Whether occlusion rays should be affected by the world bounds material</summary>
+        public bool OcclusionRaysLoseEnergyFromWorldBounds
+        {
+            get => WorldBindings.GetOcclusionRaysLoseEnergyFromWorldBounds(native);
+            set => WorldBindings.SetOcclusionRaysLoseEnergyFromWorldBounds(native, value).ThrowIfError();
         }
 
         /// <summary>The number of work items to split trails across for load balancing. A higher value helps evenly distribute work across all threads.</summary>
@@ -269,7 +286,7 @@ namespace vaudionativewrapper.managed
             set => WorldBindings.SetMetersPerUnit(native, value).ThrowIfError();
         }
 
-        /// <summary>Inverse speed of sound in seconds per meter. Affects reverb calculation</summary>
+        /// <summary>Inverse speed of sound in seconds per meter. Affects reverb calculations.</summary>
         public float InverseSpeedOfSound
         {
             get => WorldBindings.GetInverseSpeedOfSound(native);
@@ -353,7 +370,7 @@ namespace vaudionativewrapper.managed
             return callbacks;
         }
 
-        /// <summary>Get properties for a specific material.</summary>
+        /// <summary>Get a material's properties</summary>
         public MaterialProperties GetMaterial(MaterialType type)
         {
             return new MaterialProperties(native, (int)type);
@@ -412,7 +429,7 @@ namespace vaudionativewrapper.managed
             }
         }
 
-        /// <summary>Whether to log memory allocation warnings</summary>
+        /// <summary>Whether to log memory allocation warnings.</summary>
         public bool LogMemoryAllocationWarnings
         {
             get => WorldBindings.GetLogMemoryAllocationWarnings(native);

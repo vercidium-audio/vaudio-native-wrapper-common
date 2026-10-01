@@ -44,6 +44,9 @@ namespace vaudionativewrapper.managed
         /// <summary>Calls the primitive-specific native Destroy binding</summary>
         protected abstract VAResult DestroyNative(IntPtr native);
 
+        // Called after this primitive is successfully added to a world
+        internal virtual void OnAddedToWorld() { }
+
 #if DEBUG
         ~Primitive()
         {

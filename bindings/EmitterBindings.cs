@@ -202,6 +202,30 @@ namespace vaudionativewrapper
         [DllImport(Constants.DLL_NAME, CallingConvention = CallingConvention.Cdecl, EntryPoint = "vaEmitterSetMinimumPermeationEnergy")]
         public static extern VAResult SetMinimumPermeationEnergy(IntPtr emitter, float value);
 
+        [DllImport(Constants.DLL_NAME, CallingConvention = CallingConvention.Cdecl, EntryPoint = "vaEmitterGetMinimumReverbEnergy")]
+        public static extern float GetMinimumReverbEnergy(IntPtr emitter);
+
+        [DllImport(Constants.DLL_NAME, CallingConvention = CallingConvention.Cdecl, EntryPoint = "vaEmitterSetMinimumReverbEnergy")]
+        public static extern VAResult SetMinimumReverbEnergy(IntPtr emitter, float value);
+
+        [DllImport(Constants.DLL_NAME, CallingConvention = CallingConvention.Cdecl, EntryPoint = "vaEmitterGetMinimumOcclusionEnergy")]
+        public static extern float GetMinimumOcclusionEnergy(IntPtr emitter);
+
+        [DllImport(Constants.DLL_NAME, CallingConvention = CallingConvention.Cdecl, EntryPoint = "vaEmitterSetMinimumOcclusionEnergy")]
+        public static extern VAResult SetMinimumOcclusionEnergy(IntPtr emitter, float value);
+
+        [DllImport(Constants.DLL_NAME, CallingConvention = CallingConvention.Cdecl, EntryPoint = "vaEmitterGetMinimumAmbientPermeationEnergy")]
+        public static extern float GetMinimumAmbientPermeationEnergy(IntPtr emitter);
+
+        [DllImport(Constants.DLL_NAME, CallingConvention = CallingConvention.Cdecl, EntryPoint = "vaEmitterSetMinimumAmbientPermeationEnergy")]
+        public static extern VAResult SetMinimumAmbientPermeationEnergy(IntPtr emitter, float value);
+
+        [DllImport(Constants.DLL_NAME, CallingConvention = CallingConvention.Cdecl, EntryPoint = "vaEmitterGetMinimumAmbientOcclusionEnergy")]
+        public static extern float GetMinimumAmbientOcclusionEnergy(IntPtr emitter);
+
+        [DllImport(Constants.DLL_NAME, CallingConvention = CallingConvention.Cdecl, EntryPoint = "vaEmitterSetMinimumAmbientOcclusionEnergy")]
+        public static extern VAResult SetMinimumAmbientOcclusionEnergy(IntPtr emitter, float value);
+
         [DllImport(Constants.DLL_NAME, CallingConvention = CallingConvention.Cdecl, EntryPoint = "vaEmitterGetReverbEnabled")]
         [return: MarshalAs(UnmanagedType.U1)]
         public static extern bool ReverbEnabled(IntPtr emitter);
@@ -226,9 +250,9 @@ namespace vaudionativewrapper
         [return: MarshalAs(UnmanagedType.U1)]
         public static extern bool VisualisationEnabled(IntPtr emitter);
 
-        [DllImport(Constants.DLL_NAME, CallingConvention = CallingConvention.Cdecl, EntryPoint = "vaEmitterGetCastsAnyRays")]
+        [DllImport(Constants.DLL_NAME, CallingConvention = CallingConvention.Cdecl, EntryPoint = "vaEmitterGetCreatesTrails")]
         [return: MarshalAs(UnmanagedType.U1)]
-        public static extern bool CastsAnyRays(IntPtr emitter);
+        public static extern bool CreatesTrails(IntPtr emitter);
 
         [DllImport(Constants.DLL_NAME, CallingConvention = CallingConvention.Cdecl, EntryPoint = "vaEmitterGetWithinWorldBounds")]
         [return: MarshalAs(UnmanagedType.U1)]
@@ -284,6 +308,13 @@ namespace vaudionativewrapper
         [DllImport(Constants.DLL_NAME, CallingConvention = CallingConvention.Cdecl, EntryPoint = "vaEmitterGetAffectsGroupedEAX")]
         [return: MarshalAs(UnmanagedType.U1)]
         public static extern bool GetAffectsGroupedEAX(IntPtr emitter);
+
+        [DllImport(Constants.DLL_NAME, CallingConvention = CallingConvention.Cdecl, EntryPoint = "vaEmitterSetKeepReverbTailAlive")]
+        public static extern VAResult SetKeepReverbTailAlive(IntPtr emitter, bool value);
+
+        [DllImport(Constants.DLL_NAME, CallingConvention = CallingConvention.Cdecl, EntryPoint = "vaEmitterGetKeepReverbTailAlive")]
+        [return: MarshalAs(UnmanagedType.U1)]
+        public static extern bool GetKeepReverbTailAlive(IntPtr emitter);
 
         [DllImport(Constants.DLL_NAME, CallingConvention = CallingConvention.Cdecl, EntryPoint = "vaEmitterGetGroupedEAXIndex")]
         public static extern int GetGroupedEAXIndex(IntPtr emitter);

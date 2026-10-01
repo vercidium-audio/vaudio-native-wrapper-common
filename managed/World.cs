@@ -257,6 +257,13 @@ namespace vaudionativewrapper.managed
             set => WorldBindings.SetMaximumGroupedEAXCount(native, value).ThrowIfError();
         }
 
+        /// <summary>Whether occlusion rays should be affected by the world bounds material</summary>
+        public bool OcclusionRaysLoseEnergyFromWorldBounds
+        {
+            get => WorldBindings.GetOcclusionRaysLoseEnergyFromWorldBounds(native);
+            set => WorldBindings.SetOcclusionRaysLoseEnergyFromWorldBounds(native, value).ThrowIfError();
+        }
+
         /// <summary>The number of work items to split trails across for load balancing. A higher value helps evenly distribute work across all threads.</summary>
         public int WorkItemCount
         {

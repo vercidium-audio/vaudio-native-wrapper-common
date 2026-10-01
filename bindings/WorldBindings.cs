@@ -125,6 +125,12 @@ namespace vaudionativewrapper
         [DllImport(Constants.DLL_NAME, CallingConvention = CallingConvention.Cdecl, EntryPoint = "vaWorldSetMaximumGroupedEAXCount")]
         public static extern VAResult SetMaximumGroupedEAXCount(IntPtr world, int value);
 
+        [DllImport(Constants.DLL_NAME, CallingConvention = CallingConvention.Cdecl, EntryPoint = "vaWorldGetOcclusionRaysLoseEnergyFromWorldBounds")]
+        [return: MarshalAs(UnmanagedType.U1)]
+        public static extern bool GetOcclusionRaysLoseEnergyFromWorldBounds(IntPtr world);
+        [DllImport(Constants.DLL_NAME, CallingConvention = CallingConvention.Cdecl, EntryPoint = "vaWorldSetOcclusionRaysLoseEnergyFromWorldBounds")]
+        public static extern VAResult SetOcclusionRaysLoseEnergyFromWorldBounds(IntPtr world, bool value);
+
         [DllImport(Constants.DLL_NAME, CallingConvention = CallingConvention.Cdecl, EntryPoint = "vaWorldGetWorkItemCount")]
         public static extern int GetWorkItemCount(IntPtr world);
         [DllImport(Constants.DLL_NAME, CallingConvention = CallingConvention.Cdecl, EntryPoint = "vaWorldSetWorkItemCount")]

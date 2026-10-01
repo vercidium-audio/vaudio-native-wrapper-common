@@ -268,7 +268,7 @@ namespace vaudionativewrapper.managed
             set => EmitterBindings.SetRefreshDistanceThreshold(native, value).ThrowIfError();
         }
 
-        /// <summary>The percentage of returning energy required for reverb to be at maximum volume. Defaults to 15% of this emitter's ReverbRayCount * ReverbBounceCount.</summary>
+        /// <summary>The percentage of returning energy required for reverb to be at full volume. Defaults to 15% of this emitter's ReverbRayCount * ReverbBounceCount.</summary>
         public float ReverbEnergyCap
         {
             get => EmitterBindings.GetReverbEnergyCap(native);

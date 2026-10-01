@@ -100,6 +100,13 @@ namespace vaudionativewrapper.managed
             set => EmitterBindings.SetAffectsGroupedEAX(native, value).ThrowIfError();
         }
 
+        /// <summary>Whether this emitter is kept alive while its reverb tail continues to play</summary>
+        public bool KeepReverbTailAlive
+        {
+            get => EmitterBindings.GetKeepReverbTailAlive(native);
+            set => EmitterBindings.SetKeepReverbTailAlive(native, value).ThrowIfError();
+        }
+
         /// <summary>Whether this emitter is used as a reference point for calculating relative reverb gain and direction</summary>
         public bool HasRelativeReverb
         {

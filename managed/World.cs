@@ -121,6 +121,7 @@ namespace vaudionativewrapper.managed
         public void AddPrimitive(Primitive primitive)
         {
             WorldBindings.AddPrimitive(native, primitive.native).ThrowIfError();
+            primitive.OnAddedToWorld();
         }
 
         /// <summary>Removes a primitive from the raytracing simulation. This method is thread-safe and will not affect the current raytracing threads.</summary>
